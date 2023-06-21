@@ -3,6 +3,7 @@ package com.cos.securityV1.controller;
 import com.cos.securityV1.model.User;
 import com.cos.securityV1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller //View를 리턴
 @RequiredArgsConstructor
 public class IndexController {
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @GetMapping({"","/"})
     public String index() {
@@ -51,7 +55,6 @@ public class IndexController {
 
     @PostMapping("/join")
     public String join(User user) {
-        System.out.println("user = " + user);
         user.setRole("ROLE_USER");
         String rawPassword = user.getPassword();
         String encPassword = encoder.encode(rawPassword);
