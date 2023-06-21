@@ -4,6 +4,7 @@ import com.cos.securityV1.model.User;
 import com.cos.securityV1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class IndexController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public String index() {
         // 머스테치 기본 폴더 src/main/resources/
         // viewResolver 설정 : tmeplates/ (prefix), .mustache (suffix) <- 생략가능
@@ -63,5 +64,13 @@ public class IndexController {
         userRepository.save(user);
         return "redirect:/loginForm";
     }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    //@Secured("ROLE_ADMIN")
+    @GetMapping("/data")
+    public @ResponseBody String data() {
+        return "데이터 정보";
+    }
+
 
 }

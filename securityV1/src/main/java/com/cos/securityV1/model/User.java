@@ -10,12 +10,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String username;
     private String password;
