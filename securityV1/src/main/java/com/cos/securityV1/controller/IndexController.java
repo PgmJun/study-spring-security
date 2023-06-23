@@ -28,6 +28,7 @@ public class IndexController {
     @GetMapping("/test/login")
     public @ResponseBody String testLogin(Authentication authentication,
                                           @AuthenticationPrincipal PrincipalDetails userDetails) {
+        // @AuthenticationPrincipal : Authentication에 저장된 UserDetails 객체를 쉽게 가져오기 위한 어노테이션
         System.out.println("test/login ==============");
         PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();
         System.out.println("principalDetails = " + principalDetails.getUser());
@@ -56,7 +57,8 @@ public class IndexController {
     }
 
     @GetMapping("/user")
-    public @ResponseBody String user() {
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails = " + principalDetails.getAttributes());
         return "user";
     }
 

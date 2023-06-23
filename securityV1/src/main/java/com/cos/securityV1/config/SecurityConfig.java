@@ -1,30 +1,24 @@
 package com.cos.securityV1.config;
 
-import com.cos.securityV1.auth.PrincipalOauth2UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cos.securityV1.oauth.PrincipalOauth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity // 해당 어노테이션 활성 시, 스프링 시큐리티 필터가 스프링 필터채인에 등록 됨
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 //securedEnabled = true => Controller의 특정 요청에 대해서 권한 설정을 부여하는 @Secured 어노테이션 사용 활성화
 //prePostEnabled = true => Controller의 특정 요청이 수행되기 전에 실행되는 @PreAuthorize, 수행된 이후 실행되는 @PostAuthorize어노테이션 활성화
 public class SecurityConfig {
 
-    @Autowired
-    private PrincipalOauth2UserService principalOauth2UserService;
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private final PrincipalOauth2UserService principalOauth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
